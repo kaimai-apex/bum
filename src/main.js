@@ -1,6 +1,9 @@
 // import '/style.css'
 import '../style.css'
-import { mockUser, mockPosts } from './data.js'
+// import { mockUser, mockPosts } from './data.js'
+import { users } from './data/users.js'
+import { posts } from './data/posts.js'
+import { messages } from './data/messages.js'
 
 const app = document.querySelector('#app')
 
@@ -27,26 +30,27 @@ function renderFeed(posts) {
 }
 
 function init() {
-    let posts = [...mockPosts]
+    let currentUser = users[0]
+    let currentPosts = [...posts]
 
     app.innerHTML = `
         <h2>Welcome to Climbing Bum 🧗‍♂️</h2>
         <p>Share your sends, projects, and climbing stories 💪</p>
         ${renderPostForm()}
-        <div id="feed">${renderFeed(posts)}</div>
+        <div id="feed">${renderFeed(currentPosts)}</div>
     `
 
     document.getElementById('submitPost').addEventListener('click', () => {
         const input = document.getElementById('postInput')
         const newPost = {
-            user: mockUser.name,
+            userId: currentUser.id,
             content: input.value,
             timestamp: 'Just now'
         }
 
         if (input.value.trim()) {
-            posts.unshift(newPost)
-            document.getElementById('feed').innerHTML = renderFeed(posts)
+            currentPosts.unshift(newPost)
+            document.getElementById('feed').innerHTML = renderFeed(currentPosts)
             input.value = ''
         }
     })
